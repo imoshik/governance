@@ -172,7 +172,7 @@ class Governance(IconSystemScoreBase):
         self._revision_code = VarDB(self._REVISION_CODE, db, value_type=int)
         self._revision_name = VarDB(self._REVISION_NAME, db, value_type=str)
 
-    def on_install(self, stepPrice: int = 10 ** 10) -> None:
+    def on_install(self, stepPrice: int = 10 ** 12) -> None:
         super().on_install()
         # add owner into initial auditor list
         Logger.debug(f'on_install: owner = "{self.owner}"', TAG)
@@ -533,30 +533,30 @@ class Governance(IconSystemScoreBase):
 
     def _set_initial_step_costs(self):
         initial_costs = {
-            STEP_TYPE_DEFAULT: 100_000,
-            STEP_TYPE_CONTRACT_CALL: 25_000,
-            STEP_TYPE_CONTRACT_CREATE: 1_000_000_000,
-            STEP_TYPE_CONTRACT_UPDATE: 1_600_000_000,
-            STEP_TYPE_CONTRACT_DESTRUCT: -70_000,
-            STEP_TYPE_CONTRACT_SET: 30_000,
-            STEP_TYPE_GET: 0,
-            STEP_TYPE_SET: 320,
-            STEP_TYPE_REPLACE: 80,
-            STEP_TYPE_DELETE: -240,
-            STEP_TYPE_INPUT: 200,
-            STEP_TYPE_EVENT_LOG: 100,
+            STEP_TYPE_DEFAULT: 4000,
+            STEP_TYPE_CONTRACT_CALL: 1500,
+            STEP_TYPE_CONTRACT_CREATE: 20000,
+            STEP_TYPE_CONTRACT_UPDATE: 8000,
+            STEP_TYPE_CONTRACT_DESTRUCT: -7000,
+            STEP_TYPE_CONTRACT_SET: 1000,
+            STEP_TYPE_GET: 5,
+            STEP_TYPE_SET: 20,
+            STEP_TYPE_REPLACE: 5,
+            STEP_TYPE_DELETE: -15,
+            STEP_TYPE_INPUT: 20,
+            STEP_TYPE_EVENT_LOG: 10
             STEP_TYPE_API_CALL: 0
         }
         for key, value in initial_costs.items():
             self._step_costs[key] = value
 
     def _set_initial_max_step_limits(self):
-        self._max_step_limits[CONTEXT_TYPE_INVOKE] = 2_500_000_000
-        self._max_step_limits[CONTEXT_TYPE_QUERY] = 50_000_000
+        self._max_step_limits[CONTEXT_TYPE_INVOKE] = 0x4000000
+        self._max_step_limits[CONTEXT_TYPE_QUERY] = 0x40000
 
     def _set_initial_revision(self):
-        self._revision_code.set(2)
-        self._revision_name.set("1.1.2")
+        self._revision_code.set(3)
+        self._revision_name.set("1.1.2.1")
 
     @external(readonly=True)
     def getStepCosts(self) -> dict:
